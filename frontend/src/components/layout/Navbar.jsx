@@ -1,9 +1,10 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { cn } from '../utils';
 import { Button } from '../ui/Button';
 
 export function Navbar({ actionable = false, actionText = 'Join the platform', actionLink = '/login' }) {
+  const navigate = useNavigate();
   const getLinkClass = ({ isActive }) => 
     cn(
       'px-4 py-2 rounded-full text-sm font-medium transition-colors',
@@ -15,7 +16,7 @@ export function Navbar({ actionable = false, actionText = 'Join the platform', a
   return (
     <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
       <nav className="glass-nav flex items-center justify-between px-6 py-3 rounded-full w-full max-w-6xl">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/')}>
           <div className="w-10 h-10 bg-[#0e9f85] rounded-xl flex items-center justify-center text-white font-bold text-lg">
             H
           </div>
@@ -32,13 +33,13 @@ export function Navbar({ actionable = false, actionText = 'Join the platform', a
 
         <div className="flex items-center gap-4">
           {actionable ? (
-            <Button size="sm" variant="primary" onClick={() => window.location.href = actionLink}>
+            <Button size="sm" variant="primary" onClick={() => navigate(actionLink)}>
               {actionText}
             </Button>
           ) : (
              <div className="flex items-center gap-3">
                <span className="text-sm font-medium text-gray-500 whitespace-nowrap hidden sm:block">Live community signals</span>
-               <Button size="sm" variant="primary" onClick={() => window.location.href = '/login'}>Join the platform</Button>
+               <Button size="sm" variant="primary" onClick={() => navigate('/login')}>Join the platform</Button>
              </div>
           )}
         </div>
