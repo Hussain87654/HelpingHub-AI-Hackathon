@@ -11,14 +11,14 @@ const protect = async (req, res, next) => {
       
       // User ka data request object mein daal dena taake controllers mein use ho sake
       req.user = await User.findById(decoded.id).select('-password');
-      next();
+      return next();
     } catch (error) {
-      res.status(401).json({ msg: 'Not authorized, token failed' });
+      return res.status(401).json({ msg: 'Not authorized, token failed' });
     }
   }
 
   if (!token) {
-    res.status(401).json({ msg: 'Not authorized, no token' });
+    return res.status(401).json({ msg: 'Not authorized, no token' });
   }
 };
 
