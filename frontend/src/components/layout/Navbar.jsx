@@ -2,9 +2,12 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { cn } from '../utils';
 import { Button } from '../ui/Button';
+import { useAuth } from '../../context/AuthContext';
 
-export function Navbar({ actionable = false, actionText = 'Join the platform', actionLink = '/login' }) {
+export function Navbar() {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  
   const getLinkClass = ({ isActive }) => 
     cn(
       'px-4 py-2 rounded-full text-sm font-medium transition-colors',
@@ -23,23 +26,33 @@ export function Navbar({ actionable = false, actionText = 'Join the platform', a
           <span className="font-bold text-[#192122] text-lg">HelpHub AI</span>
         </div>
 
-        <div className="hidden md:flex items-center gap-2">
-          <NavLink to="/" className={getLinkClass}>Home</NavLink>
-          <NavLink to="/feed" className={getLinkClass}>Explore</NavLink>
-          <NavLink to="/leaderboard" className={getLinkClass}>Leaderboard</NavLink>
-          <NavLink to="/ai-center" className={getLinkClass}>AI Center</NavLink>
-          <NavLink to="/messages" className={getLinkClass}>Messages</NavLink>
-        </div>
+        {user ? (
+          <div className="hidden md:flex items-center gap-2">
+            <NavLink to="/feed" className={getLinkClass}>Dashboard</NavLink>
+            <NavLink to="/create-request" className={getLinkClass}>Create Request</NavLink>
+            <NavLink to="/messages" className={getLinkClass}>Messages</NavLink>
+            <NavLink to="/profile" className={getLinkClass}>Profile</NavLink>
+            <NavLink to="/notifications" className={getLinkClass}>Notifications</NavLink>
+          </div>
+        ) : (
+          <div className="hidden md:flex items-center gap-2">
+            <NavLink to="/" className={getLinkClass}>Home</NavLink>
+            <NavLink to="/feed" className={getLinkClass}>Explore</NavLink>
+            <NavLink to="/leaderboard" className={getLinkClass}>Leaderboard</NavLink>
+            <NavLink to="/ai-center" className={getLinkClass}>AI Center</NavLink>
+          </div>
+        )}
 
         <div className="flex items-center gap-4">
-          {actionable ? (
-            <Button size="sm" variant="primary" onClick={() => navigate(actionLink)}>
-              {actionText}
-            </Button>
-          ) : (
+          {!user ? (
              <div className="flex items-center gap-3">
                <span className="text-sm font-medium text-gray-500 whitespace-nowrap hidden sm:block">Live community signals</span>
                <Button size="sm" variant="primary" onClick={() => navigate('/login')}>Join the platform</Button>
+             </div>
+          ) : (
+             <div className="flex items-center gap-3">
+               <Button size="sm" variant="primary" onClick={() => navigate('/ai-center')}>Open AI Center</Button>
+               <Button size="sm" variant="secondary" onClick={() => { localStorage.removeItem('token'); window.location.href = '/login'; }}>Logout</Button>
              </div>
           )}
         </div>

@@ -98,14 +98,25 @@ exports.offerHelp = async (req, res) => {
 
 // Request Solved hone par helper ko reward dena
 exports.markAsSolved = async (req, res) => {
+  try {
     const request = await HelpRequest.findById(req.params.id);
+    if (!request) return res.status(404).json({ msg: "Request not found" });
+
     request.status = 'Solved';
     await request.save();
 
-    // Reward the helper
-    const helper = await User.findById(req.body.helperId);
-    helper.trustScore += 10; // Increase trust score
-    await helper.save();
+    if (req.body.helperId) {
+      const helper = await User.findById(req.body.helperId);
+      if (helper) {
+        helper.trustScore += 10; // Increase trust score
+        helper.contributions = (helper.contributions || 0) + 1; // Increase contributions
+        await helper.save();
+      }
+    }
 
-    res.json({ message: "Request solved and Trust Score updated!" });
+    res.json({ message: "Request solved and Trust Score updated!", request });
+  } catch (err) {
+    console.error('Mark As Solved Error:', err.message);
+    res.status(500).json({ msg: "Server Error" });
+  }
 };

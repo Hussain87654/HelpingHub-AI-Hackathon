@@ -121,7 +121,7 @@ export default function Landing() {
                   <div className="font-bold text-sm">Ayesha Khan</div>
                   <div className="text-xs text-[#5e6b6f]">Karachi • 1 helper interested</div>
                 </div>
-                <Button variant="secondary" size="sm" onClick={() => navigate('/request/1')}>Open details</Button>
+                <Button variant="secondary" size="sm" onClick={() => navigate('/feed')}>View in feed</Button>
               </div>
             </Card>
             <Card className="flex flex-col">
@@ -142,7 +142,7 @@ export default function Landing() {
                   <div className="font-bold text-sm">Sara Noor</div>
                   <div className="text-xs text-[#5e6b6f]">Karachi • 1 helper interested</div>
                 </div>
-                <Button variant="secondary" size="sm" onClick={() => navigate('/request/2')}>Open details</Button>
+                <Button variant="secondary" size="sm" onClick={() => navigate('/feed')}>View in feed</Button>
               </div>
             </Card>
             <Card className="flex flex-col">
@@ -163,7 +163,7 @@ export default function Landing() {
                   <div className="font-bold text-sm">Ayesha Khan</div>
                   <div className="text-xs text-[#5e6b6f]">Lahore • 1 helper interested</div>
                 </div>
-                <Button variant="secondary" size="sm" onClick={() => navigate('/request/3')}>Open details</Button>
+                <Button variant="secondary" size="sm" onClick={() => navigate('/feed')}>View in feed</Button>
               </div>
             </Card>
           </div>

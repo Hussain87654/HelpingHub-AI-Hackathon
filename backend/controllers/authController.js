@@ -31,6 +31,7 @@ exports.registerUser = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
         token: generateToken(user._id),
       });
     } else {
@@ -53,6 +54,7 @@ exports.loginUser = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
         token: generateToken(user._id),
       });
     } else {
@@ -66,16 +68,22 @@ exports.loginUser = async (req, res) => {
 
 // controllers/authController.js mein add karo
 exports.updateProfile = async (req, res) => {
-  const user = await User.findById(req.user._id);
+  try {
+    const user = await User.findById(req.user._id);
 
-  if (user) {
-    user.skills = req.body.skills || user.skills;
-    user.interests = req.body.interests || user.interests;
-    user.location = req.body.location || user.location;
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.skills = req.body.skills || user.skills;
+      user.interests = req.body.interests || user.interests;
+      user.location = req.body.location || user.location;
 
-    const updatedUser = await user.save();
-    res.json(updatedUser);
-  } else {
-    res.status(404).json({ msg: 'User not found' });
+      const updatedUser = await user.save();
+      res.json(updatedUser);
+    } else {
+      res.status(404).json({ msg: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Update Profile Error:', error.message);
+    res.status(500).json({ msg: 'Server error during profile update' });
   }
 };

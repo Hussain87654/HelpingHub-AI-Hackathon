@@ -13,6 +13,7 @@ import CreateRequest from './pages/CreateRequest';
 import Leaderboard from './pages/Leaderboard';
 import Profile from './pages/Profile';
 import Messages from './pages/Messages';
+import Notifications from './pages/Notifications';
 
 function AppLayout() {
   const location = useLocation();
@@ -36,6 +37,7 @@ function AppLayout() {
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/profile" element={user ? <Profile /> : <Auth />} />
         <Route path="/messages" element={user ? <Messages /> : <Auth />} />
+        <Route path="/notifications" element={user ? <Notifications /> : <Auth />} />
       </Routes>
     </>
   );

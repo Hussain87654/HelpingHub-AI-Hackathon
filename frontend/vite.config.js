@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://helping-hub-ai-hackathon.vercel.app',
+        target: 'http://localhost:5000',
         changeOrigin: true,
       },
     },
